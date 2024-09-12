@@ -1,15 +1,23 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <router-view></router-view> -->
+    <FlywinMtc></FlywinMtc>
+    <!-- <router-link to="/subpage">跳转到子页面</router-link> -->
+    <!-- <my-vant-button /> -->
+    <!-- <my-chart /> -->
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FlywinMtc from './views/mtc/index.vue';
+// import MyVantButton from './components/MyVantButton.vue';
+// import MyChart from './components/MyChart.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FlywinMtc
   }
 }
 </script>
@@ -22,5 +30,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  
 }
 </style>
