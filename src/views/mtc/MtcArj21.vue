@@ -16,6 +16,7 @@
             </van-col>
         </van-row>
         <div ref="chart" style="width: 200px; height: 400px;"></div>
+        <div>TOP10技术问题</div>
     </div>
 </template>
 
@@ -23,10 +24,18 @@
 
 export default {
     name: 'MtcArj21',
+    data() {
+        return {
+            list: [],
+        }
+    },
     mounted() {
         this.initChart();
     },
     methods: {
+        getTop10() {
+            
+        },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
             chart.setOption({
@@ -41,7 +50,7 @@ export default {
                 series: [{
                     name: '数据',
                     type: 'bar',
-                    data: [0,5, 10, 20, 30]
+                    data: [0, 5, 10, 20, 30]
                 }]
             });
         }
@@ -50,10 +59,11 @@ export default {
 </script>
 
 <style>
-.question_follow{
+.question_follow {
     text-align: left;
     padding-left: 20px;
 }
+
 .desc_title {
     display: flex;
     padding-left: 20px;

@@ -1,0 +1,13 @@
+{
+  "origins": [
+    {
+      "name": "mtc",
+      "originUrl": "http://172.16.41.176:8010/v3/api-docs"
+    }
+  ],
+  "templatePath": "./pontTemplate",
+  "outDir": "./src/pontApi",
+  "usingMultipleOrigins": true,
+  "surrounding": "typeScript",
+  "templateType": "fetch"
+}
