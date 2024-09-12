@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-card num="2" price="2.00" desc="描述信息" title="技术问题跟踪"/>
+        <h1>C919</h1>
         <div ref="chart" style="width: 200px; height: 400px;"></div>
     </div>
 </template>
