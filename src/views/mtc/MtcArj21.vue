@@ -48,14 +48,14 @@
 </template>
 
 <script>
-import getStatic from '@/api/TechnicalIssueTrack.js';
+import getStatic from '@/api/technicalIssueTrack.js';
 export default {
     name: 'MtcArj21',
     data() {
         return {
             items: ["Item 1", "Item 2", "Item 3"],
             chart: null,
-            dataType: 1 ,//1:ATA章节，2：ATA章节下的问题
+            dataType: 0 ,//1:ATA章节，2：ATA章节下的问题
             aircraftType: 0
 
         };
@@ -70,7 +70,7 @@ export default {
                 dataType: this.dataType,
                 aircraftType: this.aircraftType
             };
-            getStatic({params})
+            getStatic(params)
                 .then((res) => {
                     console.log(res);
                 })

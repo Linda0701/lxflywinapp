@@ -46,7 +46,7 @@ var PontCoreManager = /** @class */ (function () {
    */
   PontCoreManager.prototype.useFetch = function (fetch) {
     if (typeof fetch !== 'function') {
-      console.error('fetch should be a function ');
+      // console.error('fetch should be a function ');
       return;
     }
     this.fetch = fetch;
