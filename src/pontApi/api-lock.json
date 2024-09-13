@@ -2,13 +2,14 @@
   {
     "mods": [
       {
-        "description": "会议接口",
-        "name": "biz_meeting_info",
+        "description": "MTC-02-会议信息接口",
+        "name": "meetingInfo",
         "interfaces": [
           {
+            "description": "会议附件",
             "name": "downloadSummary",
             "method": "get",
-            "path": "/meeting-info/download/summary/{id}",
+            "path": "/mtc/meeting-info/download/summary/{id}",
             "response": {
               "typeArgs": [],
               "typeName": "",
@@ -21,6 +22,7 @@
             "parameters": [
               {
                 "in": "path",
+                "description": "会议id",
                 "name": "id",
                 "required": true,
                 "dataType": {
@@ -36,9 +38,10 @@
             ]
           },
           {
-            "name": "list_2",
+            "description": "会议分页",
+            "name": "list",
             "method": "get",
-            "path": "/meeting-info/page",
+            "path": "/mtc/meeting-info/page",
             "response": {
               "typeArgs": [],
               "typeName": "",
@@ -51,7 +54,23 @@
             "parameters": [
               {
                 "in": "query",
-                "name": "bo",
+                "description": "会议名称",
+                "name": "name",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "委员会类型（0:FTC委员会 1:MTC委员会）",
+                "name": "committeeType",
                 "required": true,
                 "dataType": {
                   "typeArgs": [],
@@ -65,8 +84,65 @@
               },
               {
                 "in": "query",
-                "name": "pageQuery",
+                "description": "飞机类型（0:ARJ21-700 1:C919）",
+                "name": "modelType",
                 "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pageSize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pageNum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "orderByColumn",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "isAsc",
+                "required": false,
                 "dataType": {
                   "typeArgs": [],
                   "typeName": "",
@@ -80,9 +156,10 @@
             ]
           },
           {
-            "name": "getInfo_1",
+            "description": "详情",
+            "name": "getInfo_2",
             "method": "get",
-            "path": "/meeting-info/{id}",
+            "path": "/mtc/meeting-info/{id}",
             "response": {
               "typeArgs": [],
               "typeName": "",
@@ -95,6 +172,7 @@
             "parameters": [
               {
                 "in": "path",
+                "description": "会议id",
                 "name": "id",
                 "required": true,
                 "dataType": {
@@ -112,189 +190,426 @@
         ]
       },
       {
-        "description": "技术问题接口",
-        "name": "biz_technical_issue_track",
+        "description": "SYS-02-用户信息接口",
+        "name": "sysUser",
         "interfaces": [
           {
-            "name": "list",
-            "method": "get",
-            "path": "/technical-issue-track/page",
-            "response": {
-              "typeArgs": [],
-              "typeName": "",
-              "isDefsType": false,
-              "templateIndex": -1,
-              "compileTemplateKeyword": "#/definitions/",
-              "enum": [],
-              "typeProperties": []
-            },
-            "parameters": [
-              {
-                "in": "query",
-                "name": "bo",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              },
-              {
-                "in": "query",
-                "name": "pageQuery",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              }
-            ]
-          },
-          {
-            "name": "statistic",
-            "method": "get",
-            "path": "/technical-issue-track/statistic",
-            "response": {
-              "typeArgs": [],
-              "typeName": "",
-              "isDefsType": false,
-              "templateIndex": -1,
-              "compileTemplateKeyword": "#/definitions/",
-              "enum": [],
-              "typeProperties": []
-            },
-            "parameters": [
-              {
-                "in": "query",
-                "name": "dataType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              },
-              {
-                "in": "query",
-                "name": "aircraftType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              }
-            ]
-          },
-          {
-            "name": "top10",
-            "method": "get",
-            "path": "/technical-issue-track/top10",
-            "response": {
-              "typeArgs": [],
-              "typeName": "",
-              "isDefsType": false,
-              "templateIndex": -1,
-              "compileTemplateKeyword": "#/definitions/",
-              "enum": [],
-              "typeProperties": []
-            },
-            "parameters": [
-              {
-                "in": "query",
-                "name": "dataType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              },
-              {
-                "in": "query",
-                "name": "aircraftType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              }
-            ]
-          },
-          {
-            "name": "top10Ata",
-            "method": "get",
-            "path": "/technical-issue-track/top10Ata",
-            "response": {
-              "typeArgs": [],
-              "typeName": "",
-              "isDefsType": false,
-              "templateIndex": -1,
-              "compileTemplateKeyword": "#/definitions/",
-              "enum": [],
-              "typeProperties": []
-            },
-            "parameters": [
-              {
-                "in": "query",
-                "name": "dataType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              },
-              {
-                "in": "query",
-                "name": "aircraftType",
-                "required": true,
-                "dataType": {
-                  "typeArgs": [],
-                  "typeName": "",
-                  "isDefsType": false,
-                  "templateIndex": -1,
-                  "compileTemplateKeyword": "#/definitions/",
-                  "enum": [],
-                  "typeProperties": []
-                }
-              }
-            ]
-          },
-          {
+            "description": "用户信息",
             "name": "getInfo",
             "method": "get",
-            "path": "/technical-issue-track/{id}",
+            "path": "/mtc/user/getInfo",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": []
+          },
+          {
+            "description": "用户路由",
+            "name": "getRouters",
+            "method": "get",
+            "path": "/mtc/user/getRouters",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": []
+          }
+        ]
+      },
+      {
+        "description": "MTC-01-技术问题接口",
+        "name": "technicalIssueTrack",
+        "interfaces": [
+          {
+            "description": "技术问题分页",
+            "name": "page",
+            "method": "get",
+            "path": "/mtc/technical-issue-track/page",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "name": "id",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "数据类型;0：FTC；1：MTC",
+                "name": "dataType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "机型;0：C919；1：ARJ21",
+                "name": "aircraftType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "问题名称",
+                "name": "issueName",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "ATA",
+                "name": "ata",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "问题描述",
+                "name": "issueDsc",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "createBy",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "createTime",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "updateBy",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "updateTime",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "非表字段查询，json类型如{\"startTime\": \"2023-10-01 08:00:00\", \"endTime\": \"2023-10-01 17:00:00\"}",
+                "name": "params",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pageSize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pageNum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "orderByColumn",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "isAsc",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          },
+          {
+            "description": "技术问题统计",
+            "name": "statistic",
+            "method": "get",
+            "path": "/mtc/technical-issue-track/statistic",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "数据类型;0：FTC；1：MTC",
+                "name": "dataType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "机型;0：C919；1：ARJ21",
+                "name": "aircraftType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          },
+          {
+            "description": "技术问题Top10",
+            "name": "top10",
+            "method": "get",
+            "path": "/mtc/technical-issue-track/top10",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "数据类型;0：FTC；1：MTC",
+                "name": "dataType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "机型;0：C919；1：ARJ21",
+                "name": "aircraftType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          },
+          {
+            "description": "ATA技术问题Top10",
+            "name": "top10Ata",
+            "method": "get",
+            "path": "/mtc/technical-issue-track/top10Ata",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "数据类型;0：FTC；1：MTC",
+                "name": "dataType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "机型;0：C919；1：ARJ21",
+                "name": "aircraftType",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          },
+          {
+            "description": "详情",
+            "name": "getInfo_1",
+            "method": "get",
+            "path": "/mtc/technical-issue-track/{id}",
             "response": {
               "typeArgs": [],
               "typeName": "",
@@ -307,7 +622,78 @@
             "parameters": [
               {
                 "in": "path",
+                "description": "技术问题id",
                 "name": "id",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "description": "SYS-01-token信息接口",
+        "name": "token",
+        "interfaces": [
+          {
+            "description": "登录生成token",
+            "name": "login",
+            "method": "get",
+            "path": "/mtc/token/gen/{jobNum}",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "path",
+                "description": "工号",
+                "name": "jobNum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "compileTemplateKeyword": "#/definitions/",
+                  "enum": [],
+                  "typeProperties": []
+                }
+              }
+            ]
+          },
+          {
+            "description": "刷新token",
+            "name": "refresh",
+            "method": "get",
+            "path": "/mtc/token/refresh/{jobNum}",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "compileTemplateKeyword": "#/definitions/",
+              "enum": [],
+              "typeProperties": []
+            },
+            "parameters": [
+              {
+                "in": "path",
+                "description": "工号",
+                "name": "jobNum",
                 "required": true,
                 "dataType": {
                   "typeArgs": [],

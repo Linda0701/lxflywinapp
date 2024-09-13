@@ -8,6 +8,7 @@
   "templatePath": "./pontTemplate",
   "outDir": "./src/pontApi",
   "usingMultipleOrigins": true,
-  "surrounding": "typeScript",
+  "transformPath": "./transformPont",
+  "surrounding": "javaScript",
   "templateType": "fetch"
 }

@@ -40,5 +40,6 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
+  font-size: 16px
 }
 </style>

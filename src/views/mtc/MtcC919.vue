@@ -6,14 +6,13 @@
 </template>
 
 <script>
-
 export default {
     name: 'MtcArj21',
     mounted() {
         this.initChart();
     },
     methods: {
-        initChart() {
+                initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
             chart.setOption({
                 title: {

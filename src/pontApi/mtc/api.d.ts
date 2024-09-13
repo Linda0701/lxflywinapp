@@ -9,17 +9,17 @@ declare namespace defs {
 declare namespace API {
   export namespace mtc {
     /**
-     * 会议接口
+     * MTC-02-会议信息接口
      */
-    export namespace biz_meeting_info {
+    export namespace meetingInfo {
       /**
-       * undefined
-       * /meeting-info/download/summary/{id}
+       * 会议附件
+       * /mtc/meeting-info/download/summary/{id}
        */
       export namespace downloadSummary {
         export class Params {
-          /** id */
-          id: any;
+          /** 会议id */
+          id;
         }
 
         export type Response = any;
@@ -28,15 +28,25 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /meeting-info/page
+       * 会议分页
+       * /mtc/meeting-info/page
        */
-      export namespace list_2 {
+      export namespace list {
         export class Params {
-          /** bo */
-          bo: any;
-          /** pageQuery */
-          pageQuery: any;
+          /** 会议名称 */
+          name;
+          /** 委员会类型（0:FTC委员会 1:MTC委员会） */
+          committeeType;
+          /** 飞机类型（0:ARJ21-700 1:C919） */
+          modelType;
+          /** pageSize */
+          pageSize;
+          /** pageNum */
+          pageNum;
+          /** orderByColumn */
+          orderByColumn;
+          /** isAsc */
+          isAsc;
         }
 
         export type Response = any;
@@ -45,13 +55,13 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /meeting-info/{id}
+       * 详情
+       * /mtc/meeting-info/{id}
        */
-      export namespace getInfo_1 {
+      export namespace getInfo_2 {
         export class Params {
-          /** id */
-          id: any;
+          /** 会议id */
+          id;
         }
 
         export type Response = any;
@@ -61,19 +71,74 @@ declare namespace API {
     }
 
     /**
-     * 技术问题接口
+     * SYS-02-用户信息接口
      */
-    export namespace biz_technical_issue_track {
+    export namespace sysUser {
       /**
-       * undefined
-       * /technical-issue-track/page
+       * 用户信息
+       * /mtc/user/getInfo
        */
-      export namespace list {
+      export namespace getInfo {
+        export class Params {}
+
+        export type Response = any;
+        export const init: Response;
+        export function request(params: Params): Promise<any>;
+      }
+
+      /**
+       * 用户路由
+       * /mtc/user/getRouters
+       */
+      export namespace getRouters {
+        export class Params {}
+
+        export type Response = any;
+        export const init: Response;
+        export function request(params: Params): Promise<any>;
+      }
+    }
+
+    /**
+     * MTC-01-技术问题接口
+     */
+    export namespace technicalIssueTrack {
+      /**
+       * 技术问题分页
+       * /mtc/technical-issue-track/page
+       */
+      export namespace page {
         export class Params {
-          /** bo */
-          bo: any;
-          /** pageQuery */
-          pageQuery: any;
+          /** id */
+          id;
+          /** 数据类型;0：FTC；1：MTC */
+          dataType;
+          /** 机型;0：C919；1：ARJ21 */
+          aircraftType;
+          /** 问题名称 */
+          issueName;
+          /** ATA */
+          ata;
+          /** 问题描述 */
+          issueDsc;
+          /** createBy */
+          createBy;
+          /** createTime */
+          createTime;
+          /** updateBy */
+          updateBy;
+          /** updateTime */
+          updateTime;
+          /** 非表字段查询，json类型如{"startTime": "2023-10-01 08:00:00", "endTime": "2023-10-01 17:00:00"} */
+          params;
+          /** pageSize */
+          pageSize;
+          /** pageNum */
+          pageNum;
+          /** orderByColumn */
+          orderByColumn;
+          /** isAsc */
+          isAsc;
         }
 
         export type Response = any;
@@ -82,15 +147,15 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /technical-issue-track/statistic
+       * 技术问题统计
+       * /mtc/technical-issue-track/statistic
        */
       export namespace statistic {
         export class Params {
-          /** dataType */
-          dataType: any;
-          /** aircraftType */
-          aircraftType: any;
+          /** 数据类型;0：FTC；1：MTC */
+          dataType;
+          /** 机型;0：C919；1：ARJ21 */
+          aircraftType;
         }
 
         export type Response = any;
@@ -99,15 +164,15 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /technical-issue-track/top10
+       * 技术问题Top10
+       * /mtc/technical-issue-track/top10
        */
       export namespace top10 {
         export class Params {
-          /** dataType */
-          dataType: any;
-          /** aircraftType */
-          aircraftType: any;
+          /** 数据类型;0：FTC；1：MTC */
+          dataType;
+          /** 机型;0：C919；1：ARJ21 */
+          aircraftType;
         }
 
         export type Response = any;
@@ -116,15 +181,15 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /technical-issue-track/top10Ata
+       * ATA技术问题Top10
+       * /mtc/technical-issue-track/top10Ata
        */
       export namespace top10Ata {
         export class Params {
-          /** dataType */
-          dataType: any;
-          /** aircraftType */
-          aircraftType: any;
+          /** 数据类型;0：FTC；1：MTC */
+          dataType;
+          /** 机型;0：C919；1：ARJ21 */
+          aircraftType;
         }
 
         export type Response = any;
@@ -133,13 +198,48 @@ declare namespace API {
       }
 
       /**
-       * undefined
-       * /technical-issue-track/{id}
+       * 详情
+       * /mtc/technical-issue-track/{id}
        */
-      export namespace getInfo {
+      export namespace getInfo_1 {
         export class Params {
-          /** id */
-          id: any;
+          /** 技术问题id */
+          id;
+        }
+
+        export type Response = any;
+        export const init: Response;
+        export function request(params: Params): Promise<any>;
+      }
+    }
+
+    /**
+     * SYS-01-token信息接口
+     */
+    export namespace token {
+      /**
+       * 登录生成token
+       * /mtc/token/gen/{jobNum}
+       */
+      export namespace login {
+        export class Params {
+          /** 工号 */
+          jobNum;
+        }
+
+        export type Response = any;
+        export const init: Response;
+        export function request(params: Params): Promise<any>;
+      }
+
+      /**
+       * 刷新token
+       * /mtc/token/refresh/{jobNum}
+       */
+      export namespace refresh {
+        export class Params {
+          /** 工号 */
+          jobNum;
         }
 
         export type Response = any;

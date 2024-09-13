@@ -1,20 +1,26 @@
 <template>
     <div>
         <div class="question_follow">
-            <div class="cardname">技术问题跟踪</div>
-            <div class="jianba"></div>
+            <van-row>
+                <van-col span="16">
+                    <div class="cardname">技术问题跟踪</div>
+                </van-col>
+                <van-col span="8">
+                    <div class="jianba"></div>
+                </van-col>
+            </van-row>
             <van-row class="desc_title">
                 <van-col span="8">
-                    <div class="desc_title">111</div>
-                    <div class="desc_title">进行中</div>
+                    <div class="tracknum">111</div>
+                    <div class="trackstate">进行中</div>
                 </van-col>
                 <van-col span="8">
-                    <div class="desc_title">222</div>
-                    <div class="desc_title">持续跟进</div>
+                    <div class="tracknum">222</div>
+                    <div class="trackstate">持续跟进</div>
                 </van-col>
                 <van-col span="8">
-                    <div class="desc_title">222</div>
-                    <div class="desc_title">已关闭</div>
+                    <div class="tracknum">222</div>
+                    <div class="trackstate">已关闭</div>
                 </van-col>
             </van-row>
         </div>
@@ -42,18 +48,33 @@
 </template>
 
 <script>
+import getStatic from '@/api/TechnicalIssueTrack.js';
 export default {
     name: 'MtcArj21',
     data() {
         return {
             items: ["Item 1", "Item 2", "Item 3"],
-            chart: null
+            chart: null,
+            dataType: 1 ,//1:ATA章节，2：ATA章节下的问题
+            aircraftType: 0
+
         };
     },
     mounted() {
         this.initChart();
+        this.trackStatistic();
     },
     methods: {
+        trackStatistic() {
+            const params = {
+                dataType: this.dataType,
+                aircraftType: this.aircraftType
+            };
+            getStatic({params})
+                .then((res) => {
+                    console.log(res);
+                })
+        },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
             chart.setOption({
@@ -77,7 +98,7 @@ export default {
 .question_follow {
     background-image: url('./pic/questionfollow.png');
     width: 91vw;
-    height: auto;
+    height: 14vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -89,30 +110,41 @@ export default {
 
 .jianba {
     background-image: url('./pic/jianba.png');
-    width: 5vw;
-    height: auto;
+    width: 12vw;
+    height: 12vw;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-left: auto;
+    margin-top: 1vh;
+    margin-right: 3vw;
 }
 
 .cardname::before {
     content: '';
     display: inline-block;
-    width: 2vw;
+    width: 0.8vw;
     height: 1em;
     background-color: #3271F4;
     vertical-align: middle;
-    margin-right: 1vh;
+    margin-left: 4vw;
+    margin-right: 2vw;
 }
 
 .cardname {
     display: inline-flexbox;
     color: #fff;
-    margin-top: 1vh;
+    margin-top: 2.5vh;
     text-align: left;
     line-height: 1em;
 }
 
-.desc_title {
-    margin-top: 1vh;
+.tracknum {
+    font-size: 1.5rem;
+}
+
+.trackstate {
+    font-size: 0.8rem;
+    margin-top: 0.5vh;
 }
 
 .ATAchaption {

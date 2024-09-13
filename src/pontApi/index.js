@@ -1,8 +1,8 @@
 import { defs as mtcDefs, mtc } from './mtc';
 
-(window as any).defs = {
+window.defs = {
   mtc: mtcDefs,
 };
-(window as any).API = {
+window.API = {
   mtc,
 };
