@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://172.16.41.176:8010/',
+  baseURL: '/api', // 使用相对路径，匹配代理的前缀
   timeout: 5000,
 });
 

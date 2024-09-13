@@ -11,15 +11,15 @@
             </van-row>
             <van-row class="desc_title">
                 <van-col span="8">
-                    <div class="tracknum">111</div>
+                    <div class="tracknum">{{ doingTotal }}</div>
                     <div class="trackstate">进行中</div>
                 </van-col>
                 <van-col span="8">
-                    <div class="tracknum">222</div>
+                    <div class="tracknum">{{ overdueDevelopmentTotal }}</div>
                     <div class="trackstate">持续跟进</div>
                 </van-col>
                 <van-col span="8">
-                    <div class="tracknum">222</div>
+                    <div class="tracknum">{{ completeTotal }}</div>
                     <div class="trackstate">已关闭</div>
                 </van-col>
             </van-row>
@@ -48,16 +48,18 @@
 </template>
 
 <script>
-import getStatic from '@/api/technicalIssueTrack.js';
+import { getStatic } from '@/api/TechnicalIssueTrack.js';
 export default {
     name: 'MtcArj21',
     data() {
         return {
             items: ["Item 1", "Item 2", "Item 3"],
             chart: null,
-            dataType: 0 ,//1:ATA章节，2：ATA章节下的问题
-            aircraftType: 0
-
+            dataType: 0,//1:ATA章节，2：ATA章节下的问题
+            aircraftType: 0,
+            doingTotal: 0,
+            completeTotal: 0,
+            overdueDevelopmentTotal: 0
         };
     },
     mounted() {
@@ -72,8 +74,10 @@ export default {
             };
             getStatic(params)
                 .then((res) => {
-                    console.log(res);
-                })
+                    this.doingTotal = res.data.doingTotal;
+                    this.completeTotal = res.data.completeTotal;
+                    this.overdueDevelopmentTotal = res.data.overdueDevelopmentTotal;
+                });
         },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
@@ -110,8 +114,8 @@ export default {
 
 .jianba {
     background-image: url('./pic/jianba.png');
-    width: 12vw;
-    height: 12vw;
+    width: 5vh;
+    height: 5vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-left: auto;
@@ -139,7 +143,8 @@ export default {
 }
 
 .tracknum {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    margin-top: 0.5vh;
 }
 
 .trackstate {

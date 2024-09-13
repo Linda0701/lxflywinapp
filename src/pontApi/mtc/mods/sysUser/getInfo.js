@@ -1,17 +1,12 @@
 /**
  * @desc 用户信息
  */
+import axios from '@/utils/request';
 
-import * as defs from '../../baseClass';
-import { pontCore } from '../../pontCore';
-
-export class Params {}
-
-export const init = undefined;
-
-export function request(params = {}) {
-  return pontCore.fetch(pontCore.getUrl('/mtc/user/getInfo', params, 'GET'), {
+export function request(params = {}, bodyParams = {}) {
+  return axios({
     method: 'GET',
-    body: null,
+    url: '/mtc/user/getInfo',
+    params,
   });
 }

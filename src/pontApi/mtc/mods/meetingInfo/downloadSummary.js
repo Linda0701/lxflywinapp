@@ -1,23 +1,12 @@
 /**
  * @desc 会议附件
  */
+import axios from '@/utils/request';
 
-import * as defs from '../../baseClass';
-import { pontCore } from '../../pontCore';
-
-export class Params {
-  /** 会议id */
-  id;
-}
-
-export const init = undefined;
-
-export function request(params = {}) {
-  return pontCore.fetch(
-    pontCore.getUrl('/mtc/meeting-info/download/summary/{id}', params, 'GET'),
-    {
-      method: 'GET',
-      body: null,
-    },
-  );
+export function request(params = {}, bodyParams = {}) {
+  return axios({
+    method: 'GET',
+    url: '/mtc/meeting-info/download/summary/{id}',
+    params,
+  });
 }

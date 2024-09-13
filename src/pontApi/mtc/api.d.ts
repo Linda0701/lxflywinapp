@@ -33,20 +33,10 @@ declare namespace API {
        */
       export namespace list {
         export class Params {
-          /** 会议名称 */
-          name;
-          /** 委员会类型（0:FTC委员会 1:MTC委员会） */
-          committeeType;
-          /** 飞机类型（0:ARJ21-700 1:C919） */
-          modelType;
-          /** pageSize */
-          pageSize;
-          /** pageNum */
-          pageNum;
-          /** orderByColumn */
-          orderByColumn;
-          /** isAsc */
-          isAsc;
+          /** bo */
+          bo;
+          /** pageQuery */
+          pageQuery;
         }
 
         export type Response = any;
@@ -109,36 +99,10 @@ declare namespace API {
        */
       export namespace page {
         export class Params {
-          /** id */
-          id;
-          /** 数据类型;0：FTC；1：MTC */
-          dataType;
-          /** 机型;0：C919；1：ARJ21 */
-          aircraftType;
-          /** 问题名称 */
-          issueName;
-          /** ATA */
-          ata;
-          /** 问题描述 */
-          issueDsc;
-          /** createBy */
-          createBy;
-          /** createTime */
-          createTime;
-          /** updateBy */
-          updateBy;
-          /** updateTime */
-          updateTime;
-          /** 非表字段查询，json类型如{"startTime": "2023-10-01 08:00:00", "endTime": "2023-10-01 17:00:00"} */
-          params;
-          /** pageSize */
-          pageSize;
-          /** pageNum */
-          pageNum;
-          /** orderByColumn */
-          orderByColumn;
-          /** isAsc */
-          isAsc;
+          /** bo */
+          bo;
+          /** pageQuery */
+          pageQuery;
         }
 
         export type Response = any;
