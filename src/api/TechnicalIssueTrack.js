@@ -18,7 +18,16 @@ export function getStatic (data) {
     })
 }
 
-// 前10
+// Top10 ata
+export function getTop10Ata (data) {
+    return request({
+        url: '/technical-issue-track/top10Ata',
+        method: 'get',
+        params: data
+    })
+}
+
+// Top10 技术问题
 export function getTop10 (data) {
     return request({
         url: '/technical-issue-track/top10',

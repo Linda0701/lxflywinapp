@@ -30,13 +30,14 @@ export default {
 
 <style>
 #app {
+  background-image: url('assets/wholeBG.png');
   font-family: PingFang SC;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   z-index: -20;
-  background-color: #132355;
+  background-color: #132355,rgba(19, 35, 85, 0.7);;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
