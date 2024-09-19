@@ -136,43 +136,39 @@ export default {
         },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
-            const width = this.$refs.chart.clientWidth;
-            const rightOffset = 50 * (width / 100);
+            // const width = this.$refs.chart.clientWidth;
+            // const rightOffset = 50 * (width / 100);
             chart.setOption({
-                tooltip: {},
+                grid: {
+                    bottom: '5%',
+                    containLabel: true
+                },
                 xAxis: {
-                    name: 'ATA章节',
-                    nameLocation: 'middle',
-                    nameGap: 30,
+                    name: '\n\n\nATA章节',
+                    // splitLine: { show: false},
+                    nameLocation: 'end',
+                    fontsize: 8,
+                    axisLabel: { "rotate": 60 },
                     nameTextStyle: {
-                        left: 'right',
+                        padding: [2000, 0, 0, -25], // 上、右、下、左   
                     },
                     data: []
                 },
                 yAxis: {
                     name: '问题数',
-                    padding: [0, 10, 10, 0] // 上下左右填充
+                    fontsize: 8,
+                    padding: [0, 10, 10, 0], // 上下左右填充
                 },
                 series: [{
                     name: '数据',
                     type: 'bar',
-                    data: []
+                    data: [],
                 }],
-                graphic: {
-                    elements: [
-                        {
-                            type: 'text',
-                            left: `calc(100% - ${rightOffset}px)`,
-                            top: 'bottom',
-                            style: {
-                                text: 'ATA章节111',
-                                textAlign: 'right',
-                                fontSize: 14,
-                                fontWeight: 'bold',
-                                textVerticalAlign: 'bottom'
-                            }
-                        }
-                    ]
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
                 }
             });
             this.chart = chart; // 保存图表实例
@@ -196,6 +192,7 @@ export default {
                 });
         },
         updateChartSeriesData() {
+            console.log(this.ataItems)
             if (this.chart) {
                 this.chart.setOption({
                     xAxis: {
@@ -284,11 +281,12 @@ export default {
 }
 
 .chart {
-    display: inline-block;
-    width: 80vw;
+    /* display: inline-block; */
+    min-width: 70vw;
     height: 40vh;
     z-index: 200;
     margin: 0 auto;
+    width: 90%;
 }
 
 .fire {
@@ -321,6 +319,7 @@ export default {
 }
 
 .ATAchaption {
+    position: flex;
     background-image: url('./pic/Atachaption.png');
     width: 91vw;
     height: auto;
@@ -331,15 +330,12 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
-    background-blend-mode: normal; /* 默认混合模式 */
-    background-color: rgba(0, 0, 0, 0.2); /* 半透明颜色层 */
+    background-blend-mode: normal;
+    /* 默认混合模式 */
+    background-color: rgba(0, 0, 0, 0.2);
+    /* 半透明颜色层 */
 }
 
-.echartcontainer {
-    min-width: 80vw;
-    min-height: 30vh;
-    width: 100%;
-}
 
 .top10 {
     background-image: url('./pic/Top10.png');
@@ -404,7 +400,7 @@ export default {
 .meetingItem {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 
 .blueblock {
@@ -463,11 +459,13 @@ export default {
     margin: 20px 0;
     margin-right: 3vw;
 }
+
 .outer-container {
     display: flex;
     align-items: center;
 }
-.meetingElse{
+
+.meetingElse {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

@@ -30,17 +30,48 @@ export default {
 
 <style>
 #app {
-  background-image: url('assets/wholeBG.png');
+  /* background-image: url('assets/wholebg.png'); */
+  background-color: #04102A;
+  background-image: 
+  url('./assets/light.png'),
+  url('./assets/diefang.png'),
+  radial-gradient(ellipse at top, #183799 20%, #061A4B 100%, #040F27 100%);
+  background-size: contain,contain,cover;
+  background-repeat: no-repeat,no-repeat,no-repeat;
+  background-position: top,center right,center;
   font-family: PingFang SC;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  z-index: -20;
-  background-color: #132355,rgba(19, 35, 85, 0.7);;
+  z-index: -100;
   width: 100vw;
   height: 100vh;
+  /* position: relative; */
   overflow-y: scroll;
-  font-size: 16px
+  font-size: 16px;
 }
+
+.fixed-header {
+  position: fixed;
+  /* 固定在页面顶部 */
+  top: 0;
+  left: 0;
+  right: 0;
+  /* z-index: 1000; */
+  background-color: #fff;
+  /* 设置背景颜色，避免透明 */
+  color: #000;
+  /* 设置文字颜色，与背景对比 */
+  height: 50px;
+  /* 设置固定的高度 */
+  line-height: 50px;
+  /* 使文字垂直居中 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* 添加阴影，提升可见性 */
+}
+
+
+
+
 </style>
