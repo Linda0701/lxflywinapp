@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <van-nav-bar title="MTC管理页面" left-text="返回" left-arrow bind:click-left="onClickLeft" />
+    <van-sticky>
+      <van-nav-bar title="MTC管理页面" left-text="返回" left-arrow bind:click-left="onClickLeft" />
+    </van-sticky>
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <router-view></router-view> -->
     <FlywinMtc></FlywinMtc>
@@ -32,19 +34,19 @@ export default {
 #app {
   /* background-image: url('assets/wholebg.png'); */
   background-color: #04102A;
-  background-image: 
-  url('./assets/light.png'),
-  url('./assets/diefang.png'),
-  radial-gradient(ellipse at top, #183799 20%, #061A4B 100%, #040F27 100%);
-  background-size: contain,contain,cover;
-  background-repeat: no-repeat,no-repeat,no-repeat;
-  background-position: top,center right,center;
+  background-image:
+    url('./assets/light.png'),
+    url('./assets/diefang.png'),
+    radial-gradient(ellipse at top, #183799 20%, #061A4B 100%, #040F27 100%);
+  background-size: contain, contain, cover;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: top, center right, center;
   font-family: PingFang SC;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  z-index: -100;
+  z-index: -1000;
   width: 100vw;
   height: 100vh;
   /* position: relative; */
@@ -70,8 +72,4 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   /* 添加阴影，提升可见性 */
 }
-
-
-
-
 </style>
