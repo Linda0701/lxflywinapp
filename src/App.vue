@@ -29,15 +29,18 @@ export default {
 </script>
 
 <style>
+
 #app {
   background-image: url('assets/wholeBG.png');
+  background-size: 100% 30%;
+  background-repeat: no-repeat;
+  background-color: #08163a;
   font-family: PingFang SC;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   z-index: -20;
-  background-color: #132355,rgba(19, 35, 85, 0.7);;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;

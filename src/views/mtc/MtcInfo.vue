@@ -29,14 +29,18 @@
             <div ref="chart" class="chart"></div>
         </div>
         <div class="top10">
-            <van-row>
+            <!-- <van-row>
                 <van-col span="3">
                     <div class="fire"></div>
                 </van-col>
                 <van-col span="20">
                     <div class="cardnameTop10">TOP10技术问题</div>
                 </van-col>
-            </van-row>
+            </van-row> -->
+            <div class="outer-container">
+                <div class="fire"></div>
+                <div class="cardnameTop10">TOP10技术问题</div>
+            </div>
             <van-row>
                 <van-col span="16">
                     <div v-for="(item, index) in issueNameItems" :key="index" class="issueName">
@@ -73,6 +77,7 @@
 <script>
 import { getStatic, getTop10Ata, getTop10 } from '@/api/TechnicalIssueTrack.js';
 import { getMeetingInfo } from '@/api/MettingInfo.js';
+// import { color } from 'echarts';
 export default {
     name: 'MtcArj21',
     props: {
@@ -92,8 +97,8 @@ export default {
             overdueDevelopmentTotal: 0,
             bo: {
                 // name: '',
-                committeeType: 1,
-                modelType: 0
+                committeeType: 1,  // 0：FTC； 1：MTC
+                modelType: (this.aircraftType === 0) ? 1 : 0    // 1：C919 0：ARJ21； 
             },
             pageQuery: {
                 pageSize: 10,
@@ -141,44 +146,45 @@ export default {
         },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
-            const width = this.$refs.chart.clientWidth;
-            const rightOffset = 50 * (width / 100);
             chart.setOption({
                 tooltip: {},
                 xAxis: {
-                    name: 'ATA章节',
-                    nameLocation: 'middle',
+                    name: '\n\n\n\n\n\nATA章节',
+                    nameLocation: 'end',
                     nameGap: 30,
                     nameTextStyle: {
-                        left: 'right',
+                        padding: [0, 0, 0, -80],
+                        color: '#ffffff'
+                    },
+                    axisLabel: {
+                        color: '#B0B0B8'
                     },
                     data: []
                 },
                 yAxis: {
                     name: '问题数',
-                    padding: [0, 10, 10, 0] // 上下左右填充
+                    nameTextStyle: {
+                        padding: [0, 10, 10, 0],
+                        color: '#ffffff'
+                    },
+                    axisLabel: {
+                        color: 'rgba(255,255,255,0.4)'
+                    },
+                    splitLine: { // 设置虚线样式
+                        show: true,
+                        lineStyle: {
+                            type: 'dashed', // 虚线类型
+                            width: 1,
+                            color: '#F4F4F4' // 虚线颜色
+                        }
+                    }
                 },
                 series: [{
                     name: '数据',
                     type: 'bar',
+                    barWidth: 8,
                     data: []
-                }],
-                graphic: {
-                    elements: [
-                        {
-                            type: 'text',
-                            left: `calc(100% - ${rightOffset}px)`,
-                            top: 'bottom',
-                            style: {
-                                text: 'ATA章节111',
-                                textAlign: 'right',
-                                fontSize: 14,
-                                fontWeight: 'bold',
-                                textVerticalAlign: 'bottom'
-                            }
-                        }
-                    ]
-                }
+                }]
             });
             this.chart = chart; // 保存图表实例
         },
@@ -231,9 +237,6 @@ export default {
             const pageQuery = this.pageQuery;
             getMeetingInfo(bo, pageQuery)
                 .then((res) => {
-                    // this.meetingNameItems = res.rows.map(item => item.name)
-                    // this.meetingTimeItems = res.rows.map(item => item.time)
-                    // this.meetingStatusItems = res.rows.map(item => item.processStatus)
                     this.meetingInfos = res.rows.map(item => ({ name: item.name, time: item.time, processStatus: item.processStatus }))
                     console.log(this.meetingInfos)
                 });
@@ -302,9 +305,9 @@ export default {
     height: 3vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    margin-left: auto;
+    margin-left: 3vw;
     margin-top: 2vh;
-    margin-right: 2.5vw;
+    margin-right: 1vw;
 }
 
 .cardnameTop10 {
@@ -326,7 +329,7 @@ export default {
 }
 
 .ATAchaption {
-    background-image: url('./pic/Atachaption.png');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('./pic/Atachaption2.png'), url('./pic/Atachaption.png');
     width: 91vw;
     height: auto;
     background-size: 100% 100%;
@@ -371,6 +374,19 @@ export default {
     height: 5vh;
 }
 
+.issueName::before {
+    content: '';
+    display: inline-block;
+    width: 0.5vw;
+    height: 0.5vw;
+    background-color: #ffffff;
+    vertical-align: middle;
+    margin-left: 0.5vw;
+    margin-right: 2vw;
+    border-radius: 50%;
+    /* 设置为圆形 */
+}
+
 .issueName {
     white-space: nowrap;
     /* 不换行 */
@@ -381,7 +397,7 @@ export default {
     max-width: 50vw;
     /* 设置最大宽度 */
     text-align: left;
-    margin-left: 2vw;
+    margin-left: 3vw;
     margin-top: 1.5vh;
     font-size: 0.8rem;
 }
@@ -416,8 +432,8 @@ export default {
 
 .blueblock {
     background-image: url('./pic/blueblock.png');
-    width: 5vh;
-    height: 5vh;
+    width: 4vh;
+    height: 4vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-left: 3vw;
