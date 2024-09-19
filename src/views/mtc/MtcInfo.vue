@@ -75,13 +75,18 @@ import { getStatic, getTop10Ata, getTop10 } from '@/api/TechnicalIssueTrack.js';
 import { getMeetingInfo } from '@/api/MettingInfo.js';
 export default {
     name: 'MtcArj21',
+    props: {
+        aircraftType: {
+            type: Number,
+            default: 1
+        }  // 0：C919；1：ARJ21
+    },
     data() {
         return {
             issueNameItems: [],
             issueNoItems: [],
             chart: null,
-            dataType: 0,     // 0：FTC； 1：MTC
-            aircraftType: 0, // 0：C919；1：ARJ21
+            dataType: 1,     // 0：FTC； 1：MTC
             doingTotal: 0,
             completeTotal: 0,
             overdueDevelopmentTotal: 0,
@@ -331,8 +336,10 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
-    background-blend-mode: normal; /* 默认混合模式 */
-    background-color: rgba(0, 0, 0, 0.2); /* 半透明颜色层 */
+    background-blend-mode: normal;
+    /* 默认混合模式 */
+    background-color: rgba(0, 0, 0, 0.2);
+    /* 半透明颜色层 */
 }
 
 .echartcontainer {
@@ -404,7 +411,7 @@ export default {
 .meetingItem {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 
 .blueblock {
@@ -463,11 +470,13 @@ export default {
     margin: 20px 0;
     margin-right: 3vw;
 }
+
 .outer-container {
     display: flex;
     align-items: center;
 }
-.meetingElse{
+
+.meetingElse {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
