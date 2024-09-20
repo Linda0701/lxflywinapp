@@ -7,7 +7,16 @@ const routes = [
         path: '',
         name: 'App',
         component: App,
-        children: [],
+        children: [
+            {
+                path: '/trackTech',
+                name: 'trackTech',
+                component: () => import('@/views/mtc/trackTech.vue'),
+                meta: {
+                    showRight: true
+                }
+            }
+        ],
         meta: {
             title: '登录中...',
             showRight: true

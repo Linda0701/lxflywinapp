@@ -11,7 +11,8 @@
             </van-row>
             <van-row>
                 <van-col span="8">
-                    <div class="tracknum">{{ doingTotal }}</div>
+                    <div class="tracknum">{{ doingTotal }}
+                    </div>
                     <div class="trackstate">进行中</div>
                 </van-col>
                 <van-col span="8">
@@ -25,13 +26,19 @@
             </van-row>
         </div>
         <div class="ATAchaption">
-            <div class="cardname">技术问题涉及ATA章节</div>
+            <div class="titlecontainer">
+                <div class="cardname">技术问题涉及ATA章节</div>
+                <div class="jiantou"></div>
+            </div>
             <div ref="chart" class="chart"></div>
         </div>
         <div class="top10">
-            <div class="outer-container">
-                <div class="fire"></div>
-                <div class="cardnameTop10">TOP10技术问题</div>
+            <div class="titlecontainer">
+                <div class="outer-container">
+                    <div class="fire"></div>
+                    <div class="cardnameTop10">TOP10技术问题</div>
+                </div>
+                <div class="jiantou"></div>
             </div>
             <van-row>
                 <van-col span="16">
@@ -47,7 +54,10 @@
             </van-row>
         </div>
         <div class="Meeting">
-            <div class="cardname">会议信息</div>
+            <div class="titlecontainer">
+                <div class="cardname">会议信息</div>
+                <div class="jiantou"></div>
+            </div>
             <div v-for="(item, index) in meetingInfos" :key="index">
                 <div class="outer-container">
                     <div class="blueblock">
@@ -63,12 +73,16 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
 import { getStatic, getTop10Ata, getTop10 } from '@/api/TechnicalIssueTrack.js';
 import { getMeetingInfo } from '@/api/MettingInfo.js';
+import { processStatus } from '@/utils/dict.js';
+import { useRouter } from 'vue-router';
+
 export default {
     name: 'MtcArj21',
     props: {
@@ -104,6 +118,16 @@ export default {
             ataItems: [],
             totalCountItems: [],
             meetingInfos: [],
+        };
+    },
+    setup() {
+        const router = useRouter();
+
+        const trackpage = () => {
+            router.push('/trackTech');
+        };
+        return {
+            trackpage
         };
     },
     mounted() {
@@ -232,8 +256,7 @@ export default {
             const pageQuery = this.pageQuery;
             getMeetingInfo(bo, pageQuery)
                 .then((res) => {
-                    this.meetingInfos = res.rows.map(item => ({ name: item.name, time: item.time, processStatus: item.processStatus }))
-                    console.log(this.meetingInfos)
+                    this.meetingInfos = res.rows.map(item => ({ name: item.name, time: item.time, processStatus: processStatus(item.processStatus) }))
                 });
         },
     }
@@ -243,6 +266,7 @@ export default {
 <style>
 .question_follow {
     background-image: url('./pic/questionfollow.png');
+    z-index: -10;
     width: 91vw;
     height: 14vh;
     background-size: 100% 100%;
@@ -323,10 +347,33 @@ export default {
     margin-top: 0.5vh;
 }
 
+.ATAchaption::before {
+    content: "";
+    background-image: url('./pic/Atachaption2.png');
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.5;
+    /* 设置透明度为 20% */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* 靠右对齐 */
+    bottom: 0;
+    width: auto;
+    /* 自动宽度 */
+    height: 100%;
+    /* 全高 */
+    z-index: 1;
+    /* 确保伪元素在上方 */
+}
+
 .ATAchaption {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('./pic/Atachaption2.png'), url('./pic/Atachaption.png');
+    background-image: url('./pic/Atachaption.png');
+    background-blend-mode: multiply;
     width: 91vw;
     height: auto;
+    position: relative;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -334,10 +381,7 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
-    background-blend-mode: normal;
     /* 默认混合模式 */
-    background-color: rgba(0, 0, 0, 0.2);
-    /* 半透明颜色层 */
 }
 
 .echartcontainer {
@@ -416,6 +460,7 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
+    margin-bottom: 3vh;
 }
 
 
@@ -423,10 +468,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 98%;
 }
 
 .blueblock {
-    background-image: url('./pic/blueblock.png');
+    background-image: url('./pic/clock.png');
     width: 4vh;
     height: 4vh;
     background-size: 100% 100%;
@@ -467,7 +513,6 @@ export default {
 .meetingStatus {
     margin-top: 2vh;
     text-align: right;
-    margin-right: 3vw;
     font-size: 0.8rem;
 }
 
@@ -482,16 +527,36 @@ export default {
     margin-right: 3vw;
 }
 
+.outer-container::before {
+    content: "";
+    width: 1vw;
+}
+
 .outer-container {
     display: flex;
     align-items: center;
+}
+
+.titlecontainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
 }
 
 .meetingElse {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
+}
 
-    width: 88%;
+.jiantou {
+    background-image: url('./pic/jiantou.png');
+    width: 2vh;
+    height: 2vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-top: 2.5vh;
 }
 </style>
