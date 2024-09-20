@@ -29,14 +29,6 @@
             <div ref="chart" class="chart"></div>
         </div>
         <div class="top10">
-            <!-- <van-row>
-                <van-col span="3">
-                    <div class="fire"></div>
-                </van-col>
-                <van-col span="20">
-                    <div class="cardnameTop10">TOP10技术问题</div>
-                </van-col>
-            </van-row> -->
             <div class="outer-container">
                 <div class="fire"></div>
                 <div class="cardnameTop10">TOP10技术问题</div>
@@ -77,7 +69,6 @@
 <script>
 import { getStatic, getTop10Ata, getTop10 } from '@/api/TechnicalIssueTrack.js';
 import { getMeetingInfo } from '@/api/MettingInfo.js';
-// import { color } from 'echarts';
 export default {
     name: 'MtcArj21',
     props: {
@@ -177,7 +168,11 @@ export default {
                             width: 1,
                             color: '#F4F4F4' // 虚线颜色
                         }
-                    }
+                    },
+                    // 设置y轴刻度间隔
+                    interval: 5,
+                    // 禁用边界间隙
+                    boundaryGap: false
                 },
                 series: [{
                     name: '数据',
