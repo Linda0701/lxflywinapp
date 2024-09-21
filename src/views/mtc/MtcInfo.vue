@@ -10,8 +10,9 @@
                 </van-col>
             </van-row>
             <van-row>
-                <van-col span="8">
-                    <div class="tracknum">{{ doingTotal }}</div>
+                <van-col span="8" @click="trackpage">
+                    <div class="tracknum">{{ doingTotal }}
+                    </div>
                     <div class="trackstate">进行中</div>
                 </van-col>
                 <van-col span="8">
@@ -25,18 +26,20 @@
             </van-row>
         </div>
         <div class="ATAchaption">
-            <div class="cardname">技术问题涉及ATA章节</div>
+            <div class="titlecontainer">
+                <div class="cardname">技术问题涉及ATA章节</div>
+                <div class="jiantou"></div>
+            </div>
             <div ref="chart" class="chart"></div>
         </div>
         <div class="top10">
-            <van-row>
-                <van-col span="3">
+            <div class="titlecontainer">
+                <div class="outer-container">
                     <div class="fire"></div>
-                </van-col>
-                <van-col span="20">
                     <div class="cardnameTop10">TOP10技术问题</div>
-                </van-col>
-            </van-row>
+                </div>
+                <div class="jiantou"></div>
+            </div>
             <van-row>
                 <van-col span="16">
                     <div v-for="(item, index) in issueNameItems" :key="index" class="issueName">
@@ -51,7 +54,10 @@
             </van-row>
         </div>
         <div class="Meeting">
-            <div class="cardname">会议信息</div>
+            <div class="titlecontainer">
+                <div class="cardname">会议信息</div>
+                <div class="jiantou"></div>
+            </div>
             <div v-for="(item, index) in meetingInfos" :key="index">
                 <div class="outer-container">
                     <div class="blueblock">
@@ -67,28 +73,37 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
 import { getStatic, getTop10Ata, getTop10 } from '@/api/TechnicalIssueTrack.js';
 import { getMeetingInfo } from '@/api/MettingInfo.js';
+import { processStatus } from '@/utils/dict.js';
+import { useRouter } from 'vue-router';
+
 export default {
     name: 'MtcArj21',
+    props: {
+        aircraftType: {
+            type: Number,
+            default: 1
+        }  // 0：C919；1：ARJ21
+    },
     data() {
         return {
             issueNameItems: [],
             issueNoItems: [],
             chart: null,
-            dataType: 0,     // 0：FTC； 1：MTC
-            aircraftType: 0, // 0：C919；1：ARJ21
+            dataType: 1,     // 0：FTC； 1：MTC
             doingTotal: 0,
             completeTotal: 0,
             overdueDevelopmentTotal: 0,
             bo: {
                 // name: '',
-                committeeType: 1,
-                modelType: 0
+                committeeType: 1,  // 0：FTC； 1：MTC
+                modelType: (this.aircraftType === 0) ? 1 : 0    // 1：C919 0：ARJ21； 
             },
             pageQuery: {
                 pageSize: 10,
@@ -103,6 +118,18 @@ export default {
             ataItems: [],
             totalCountItems: [],
             meetingInfos: [],
+        };
+    },
+    setup() {
+        const router = useRouter();
+
+        const trackpage = () => {
+            router.push('/trackTech').catch(err => {
+                console.error('Failed to navigate:', err);
+            });
+        };
+        return {
+            trackpage
         };
     },
     mounted() {
@@ -136,40 +163,49 @@ export default {
         },
         initChart() {
             const chart = this.$echarts.init(this.$refs.chart);
-            // const width = this.$refs.chart.clientWidth;
-            // const rightOffset = 50 * (width / 100);
             chart.setOption({
-                grid: {
-                    bottom: '5%',
-                    containLabel: true
-                },
+                tooltip: {},
                 xAxis: {
-                    name: '\n\n\nATA章节',
-                    // splitLine: { show: false},
+                    name: '\n\n\n\n\n\nATA章节',
                     nameLocation: 'end',
-                    fontsize: 8,
-                    axisLabel: { "rotate": 60 },
+                    nameGap: 30,
                     nameTextStyle: {
-                        padding: [2000, 0, 0, -25], // 上、右、下、左   
+                        padding: [0, 0, 0, -80],
+                        color: '#ffffff'
+                    },
+                    axisLabel: {
+                        color: '#B0B0B8'
                     },
                     data: []
                 },
                 yAxis: {
                     name: '问题数',
-                    fontsize: 8,
-                    padding: [0, 10, 10, 0], // 上下左右填充
+                    nameTextStyle: {
+                        padding: [0, 10, 10, 0],
+                        color: '#ffffff'
+                    },
+                    axisLabel: {
+                        color: 'rgba(255,255,255,0.4)'
+                    },
+                    splitLine: { // 设置虚线样式
+                        show: true,
+                        lineStyle: {
+                            type: 'dashed', // 虚线类型
+                            width: 1,
+                            color: '#F4F4F4' // 虚线颜色
+                        }
+                    },
+                    // 设置y轴刻度间隔
+                    interval: 5,
+                    // 禁用边界间隙
+                    boundaryGap: false
                 },
                 series: [{
                     name: '数据',
                     type: 'bar',
-                    data: [],
-                }],
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    },
-                }
+                    barWidth: 8,
+                    data: []
+                }]
             });
             this.chart = chart; // 保存图表实例
         },
@@ -192,7 +228,6 @@ export default {
                 });
         },
         updateChartSeriesData() {
-            console.log(this.ataItems)
             if (this.chart) {
                 this.chart.setOption({
                     xAxis: {
@@ -223,11 +258,7 @@ export default {
             const pageQuery = this.pageQuery;
             getMeetingInfo(bo, pageQuery)
                 .then((res) => {
-                    // this.meetingNameItems = res.rows.map(item => item.name)
-                    // this.meetingTimeItems = res.rows.map(item => item.time)
-                    // this.meetingStatusItems = res.rows.map(item => item.processStatus)
-                    this.meetingInfos = res.rows.map(item => ({ name: item.name, time: item.time, processStatus: item.processStatus }))
-                    console.log(this.meetingInfos)
+                    this.meetingInfos = res.rows.map(item => ({ name: item.name, time: item.time, processStatus: processStatus(item.processStatus) }))
                 });
         },
     }
@@ -237,6 +268,7 @@ export default {
 <style>
 .question_follow {
     background-image: url('./pic/questionfollow.png');
+    z-index: -10;
     width: 91vw;
     height: 14vh;
     background-size: 100% 100%;
@@ -281,12 +313,11 @@ export default {
 }
 
 .chart {
-    /* display: inline-block; */
-    min-width: 70vw;
+    display: inline-block;
+    width: 80vw;
     height: 40vh;
     z-index: 200;
     margin: 0 auto;
-    width: 90%;
 }
 
 .fire {
@@ -295,9 +326,9 @@ export default {
     height: 3vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    margin-left: auto;
+    margin-left: 3vw;
     margin-top: 2vh;
-    margin-right: 2.5vw;
+    margin-right: 1vw;
 }
 
 .cardnameTop10 {
@@ -318,11 +349,33 @@ export default {
     margin-top: 0.5vh;
 }
 
+.ATAchaption::before {
+    content: "";
+    background-image: url('./pic/Atachaption2.png');
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.5;
+    /* 设置透明度为 20% */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* 靠右对齐 */
+    bottom: 0;
+    width: auto;
+    /* 自动宽度 */
+    height: 100%;
+    /* 全高 */
+    z-index: 1;
+    /* 确保伪元素在上方 */
+}
+
 .ATAchaption {
-    position: flex;
     background-image: url('./pic/Atachaption.png');
+    background-blend-mode: multiply;
     width: 91vw;
     height: auto;
+    position: relative;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -330,12 +383,14 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
-    background-blend-mode: normal;
     /* 默认混合模式 */
-    background-color: rgba(0, 0, 0, 0.2);
-    /* 半透明颜色层 */
 }
 
+.echartcontainer {
+    min-width: 80vw;
+    min-height: 30vh;
+    width: 100%;
+}
 
 .top10 {
     background-image: url('./pic/Top10.png');
@@ -360,6 +415,19 @@ export default {
     height: 5vh;
 }
 
+.issueName::before {
+    content: '';
+    display: inline-block;
+    width: 0.5vw;
+    height: 0.5vw;
+    background-color: #ffffff;
+    vertical-align: middle;
+    margin-left: 0.5vw;
+    margin-right: 2vw;
+    border-radius: 50%;
+    /* 设置为圆形 */
+}
+
 .issueName {
     white-space: nowrap;
     /* 不换行 */
@@ -370,7 +438,7 @@ export default {
     max-width: 50vw;
     /* 设置最大宽度 */
     text-align: left;
-    margin-left: 2vw;
+    margin-left: 3vw;
     margin-top: 1.5vh;
     font-size: 0.8rem;
 }
@@ -394,6 +462,7 @@ export default {
     margin-top: 2vh;
     justify-content: center;
     align-items: center;
+    margin-bottom: 3vh;
 }
 
 
@@ -401,12 +470,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 98%;
 }
 
 .blueblock {
-    background-image: url('./pic/blueblock.png');
-    width: 5vh;
-    height: 5vh;
+    background-image: url('./pic/clock.png');
+    width: 4vh;
+    height: 4vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-left: 3vw;
@@ -445,7 +515,6 @@ export default {
 .meetingStatus {
     margin-top: 2vh;
     text-align: right;
-    margin-right: 3vw;
     font-size: 0.8rem;
 }
 
@@ -460,16 +529,36 @@ export default {
     margin-right: 3vw;
 }
 
+.outer-container::before {
+    content: "";
+    width: 1vw;
+}
+
 .outer-container {
     display: flex;
     align-items: center;
+}
+
+.titlecontainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
 }
 
 .meetingElse {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
+}
 
-    width: 88%;
+.jiantou {
+    background-image: url('./pic/jiantou.png');
+    width: 2vh;
+    height: 2vh;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-top: 2.5vh;
 }
 </style>
