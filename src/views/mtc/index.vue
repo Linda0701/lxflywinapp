@@ -2,22 +2,21 @@
   <div class="backlog_wrapper">
     <van-tabs v-model:active="active" color="#24D5E5" background="#132355" title-active-color="#24D5E5">
       <van-tab title="ARJ21" name="ARJ21">
-        <mtc-arj21 v-if="active === 'ARJ21'" name="ARJ21"></mtc-arj21>
+        <mtc-info v-if="active === 'ARJ21'" :aircraft-type="1"></mtc-info>
       </van-tab>
       <van-tab title="C919" name="C919">
-        <mtc-c919 v-if="active === 'C919'" name="C919"></mtc-c919>
+        <mtc-info v-if="active === 'C919'" :aircraft-type="0"></mtc-info>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
-import MtcArj21 from "./MtcArj21.vue";
-import MtcC919 from "./MtcC919.vue";
+import MtcInfo from "./MtcInfo.vue";
 
 export default {
   name: 'FlywinMtc',
-  components: { MtcArj21, MtcC919 },
+  components: { MtcInfo },
   mounted() {
 
   },

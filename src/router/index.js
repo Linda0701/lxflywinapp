@@ -1,17 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import App from '../App.vue';
 
 
 const routes = [
     {
-        path: '',
-        name: 'App',
-        component: App,
-        children: [],
+        path: '/',
+        name: 'Home',
+        component: () => import('@/views/mtc/index.vue'),
         meta: {
-            title: '登录中...',
+            title: '首页',
             showRight: true
-        }
+        },
+    },
+    {
+        path: '/trackTech',
+        name: 'trackTech',
+        component: () => import('@/views/mtc/trackTech.vue'),
+        meta: {
+            showRight: true
+        },
     }
 ]
 const router = createRouter({
