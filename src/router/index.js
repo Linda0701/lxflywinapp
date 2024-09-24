@@ -19,6 +19,15 @@ const routes = [
             title: '技术问题跟踪',
             showRight: true
         },
+    },
+    {
+        path: '/trackDetail',
+        name: 'trackDetail',
+        component: () => import('@/views/mtc/trackDetail.vue'),
+        meta: {
+            title: '技术问题详情',
+            showRight: true
+        },
     }
 ]
 const router = createRouter({

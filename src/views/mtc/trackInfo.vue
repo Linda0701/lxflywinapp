@@ -1,55 +1,65 @@
 <template>
     <div class="trackData">
-        <div v-for="(item, index) in techInfos" :key="index" class="trackDataInfo">
-            <div class="trackbox">
-                <div class="divFlex">
-                    <div class="trackName">{{ item.issueName }}</div>
-                    <div v-if="item.status == '进行中'" class="trackDoing">
-                        {{ item.status }}
+        <div v-if="hasResults || value">
+            <div v-for="(item, index) in filteredTechInfos" :key="index" class="trackDataInfo">
+                <div class="trackbox" @click="trackDetail(item)">
+                    <div class="divFlex">
+                        <div class="trackName">{{ item.issueName }}</div>
+                        <div v-if="item.status == '进行中'" class="trackDoing">
+                            {{ item.status }}
+                        </div>
+                        <div v-if="item.status == '持续跟踪'" class="trackOverdue">
+                            {{ item.status }}
+                        </div>
+                        <div v-if="item.status == '已关闭'" class="trackClose">
+                            {{ item.status }}
+                        </div>
                     </div>
-                    <div v-if="item.status == '持续跟踪'" class="trackOverdue">
-                        {{ item.status }}
-                    </div>
-                    <div v-if="item.status == '已关闭'" class="trackClose">
-                        {{ item.status }}
-                    </div>
+                    <van-row class="trackrow">
+                        <van-col span="6">
+                            <div class="trackTitle">问题编号</div>
+                        </van-col>
+                        <van-col span="18">
+                            <div class="trackNo">{{ item.issueNo }} </div>
+                        </van-col>
+                    </van-row>
+                    <van-row class="trackrow">
+                        <van-col span="6">
+                            <div class="trackTitle">ATA</div>
+                        </van-col>
+                        <van-col span="10">
+                            <div class="trackAta"> {{ item.ata }} </div>
+                        </van-col>
+                    </van-row>
+                    <van-row class="trackrow">
+                        <van-col span="6">
+                            <div class="trackTitle">问题描述</div>
+                        </van-col>
+                        <van-col span="14">
+                            <div class="trackDsc">{{ item.issueDsc }}</div>
+                        </van-col>
+                    </van-row>
                 </div>
-                <van-row class="trackrow">
-                    <van-col span="6">
-                        <div class="trackTitle">问题编号</div>
-                    </van-col>
-                    <van-col span="18">
-                        <div class="trackNo">{{ item.issueNo }} </div>
-                    </van-col>
-                </van-row>
-                <van-row class="trackrow">
-                    <van-col span="6">
-                        <div class="trackTitle">ATA</div>
-                    </van-col>
-                    <van-col span="10">
-                        <div class="trackAta"> {{ item.ata }} </div>
-                    </van-col>
-                </van-row>
-                <van-row class="trackrow">
-                    <van-col span="6">
-                        <div class="trackTitle">问题描述</div>
-                    </van-col>
-                    <van-col span="14">
-                        <div class="trackDsc">{{ item.issueDsc }}</div>
-                    </van-col>
-                </van-row>
             </div>
+        </div>
+        <div v-else class="no-results-message">
+            没有找到匹配的结果
         </div>
     </div>
 </template>
 
 <script>
 import { getPage } from '@/api/TechnicalIssueTrack.js';
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'trackInfo',
     props: {
         status: {
+            type: String,
+            default: ''
+        },
+        value: {
             type: String,
             default: ''
         }
@@ -64,24 +74,52 @@ export default {
                 status: ''
             },
             techInfos: [],
-            issueName: '',
-            issueNo: '',
-            ata: '',
-            issueDsc: '',
+            hasResults: true,
+            errorMessage: '',
+            selectedTrackId: ''
+        };
+    },
+    computed: {
+        filteredTechInfos() {
+            if (!this.value) return this.techInfos;
+            return this.techInfos.filter(item => {
+                const searchValue = this.value.toLowerCase();
+                return (
+                    item.issueName.toLowerCase().includes(searchValue) ||
+                    item.issueNo.toLowerCase().includes(searchValue) ||
+                    item.issueDsc.toLowerCase().includes(searchValue)
+                );
+            });
+        }
+    },
+    setup() {
+        const router = useRouter();
+
+        const trackDetail = (track) => {
+            router.push({ path: '/trackDetail', query: { id:  track.id} }).catch(err => {
+                console.error('Failed to navigate:', err);
+            });
+        };
+        return {
+            trackDetail
         };
     },
     mounted() {
-        this.params.status = this.status
+        this.params.status = this.status;
         this.techInfo();
     },
     methods: {
         techInfo() {
             const params = this.params;
-            console.log(params)
             getPage(params)
                 .then((res) => {
-                    this.techInfos = res.rows.map(item => ({ issueName: item.issueName, issueNo: item.issueNo, ata: item.ata, issueDsc: item.issueDsc, status: item.status }));
+                    this.techInfos = res.rows.map(item => ({ issueName: item.issueName, issueNo: item.issueNo, ata: item.ata, issueDsc: item.issueDsc, status: item.status,id: item.id }));
+                    this.hasResults = res.rows.length > 0;
+                })
+                .catch(error => {
+                    console.log(error);
                 });
+
         },
     }
 }
@@ -119,7 +157,7 @@ export default {
 
 .trackbox {
     margin-top: 1.5vh;
-    margin-left: 2vh;
+    margin-left: 2.5vh;
     margin-bottom: 1.5vh;
 }
 
@@ -139,6 +177,7 @@ export default {
     align-items: center;
     margin-bottom: 2vh;
 }
+
 .trackDoing::before {
     content: '';
     display: inline-block;
@@ -152,12 +191,14 @@ export default {
     vertical-align: middle;
     margin-right: 2vw;
 }
-.trackDoing{
+
+.trackDoing {
     margin-right: 2vh;
     /* 垂直居中 */
     align-items: center;
     color: #08ACFF;
 }
+
 .trackOverdue::before {
     content: '';
     display: inline-block;
@@ -171,12 +212,14 @@ export default {
     vertical-align: middle;
     margin-right: 2vw;
 }
-.trackOverdue{
+
+.trackOverdue {
     margin-right: 2vh;
     /* 垂直居中 */
     align-items: center;
     color: #22C885;
 }
+
 .trackClose::before {
     content: '';
     display: inline-block;
