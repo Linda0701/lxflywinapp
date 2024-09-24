@@ -16,6 +16,7 @@ const routes = [
         name: 'trackTech',
         component: () => import('@/views/mtc/trackTech.vue'),
         meta: {
+            title: '技术问题跟踪',
             showRight: true
         },
     }

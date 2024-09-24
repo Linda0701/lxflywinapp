@@ -84,7 +84,7 @@ import { processStatus } from '@/utils/dict.js';
 import { useRouter } from 'vue-router';
 
 export default {
-    name: 'MtcArj21',
+    name: 'MtcInfo',
     props: {
         aircraftType: {
             type: Number,
